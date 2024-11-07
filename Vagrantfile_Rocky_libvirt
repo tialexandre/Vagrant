@@ -1,4 +1,3 @@
-cat <<EOF > Vagrantfile
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/rocky9" # Box compatível com Libvirt
 
@@ -6,7 +5,11 @@ Vagrant.configure("2") do |config|
     libvirt.memory = 2048
     libvirt.cpus = 2
   end
-   # Adicionando diretório sincronizado
+
+  # Redirecionamento de portas
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 443, host: 8443
+
+  # Adicionando diretório sincronizado
   config.vm.synced_folder ".", "/vagrant"
 end
-EOF
